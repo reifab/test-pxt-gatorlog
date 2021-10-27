@@ -31,7 +31,7 @@ power.fullPowerOn(FullPowerSource.B)
 basic.forever(function () {
     if (loggen) {
         list = [input.temperature(), input.lightLevel()]
-        gatorLog.writeRowToCSV(list, Header.YES)
+        gatorLog.writeRowToCSV(list, Header.NO)
         power.lowPowerPause(5000)
     }
 })
