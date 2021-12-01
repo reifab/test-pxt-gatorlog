@@ -2,26 +2,24 @@ input.onButtonPressed(Button.A, function () {
     basic.showIcon(IconNames.Sword)
     gatorLog.begin(
     2021,
-    10,
-    27,
     12,
-    7,
+    1,
+    14,
+    38,
     0
     )
-    gatorLog.mkDirectory("test")
-    gatorLog.chDirectory("test")
-    gatorLog.openCSVFile("test")
+    gatorLog.mkDirectory("UV-Messung")
+    gatorLog.chDirectory("UV-Messung")
+    gatorLog.openCSVFile("uv-messung")
+    gatorLog.writeRowWithTextToCSV(["UV-Wert"], Header.JA)
     loggen = true
-    text_list = ["Temperatur in °C", "Lichtstärke in Lux"]
-    gatorLog.writeRowToCSV(text_list, Header.YES)
     basic.showIcon(IconNames.Yes)
     basic.clearScreen()
 })
 input.onButtonPressed(Button.B, function () {
     loggen = false
+    power.lowPowerRequest()
 })
-let list: number[] = []
-let text_list: string[] = []
 let loggen = false
 basic.showIcon(IconNames.Heart)
 basic.clearScreen()
@@ -29,10 +27,8 @@ loggen = false
 power.fullPowerOn(FullPowerSource.A)
 power.fullPowerOn(FullPowerSource.B)
 basic.forever(function () {
-    if (loggen) {
-        basic.pause(100)
-        list = [input.temperature(), input.lightLevel()]
-        gatorLog.writeRowToCSV(list, Header.NO)
-        power.lowPowerPause(4900)
+    while (loggen) {
+        gatorLog.writeRowWithNumbersToCSV([pins.analogReadPin(AnalogPin.P0)], Header.NEIN)
+        power.lowPowerPause(5000)
     }
 })
